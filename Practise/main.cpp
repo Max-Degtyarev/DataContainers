@@ -1,4 +1,4 @@
-#include<iostream>
+п»ї#include<iostream>
 using namespace std;
 
 
@@ -266,7 +266,7 @@ public:
 };
 
 
-//Должен в обратном порядке выводить список
+//Р”РѕР»Р¶РµРЅ РІ РѕР±СЂР°С‚РЅРѕРј РїРѕСЂСЏРґРєРµ РІС‹РІРѕРґРёС‚СЊ СЃРїРёСЃРѕРє
 
 List& operator+(const List& left, const List& right)
 {
@@ -304,7 +304,7 @@ void main()
 
 	List list;
 	int n;
-	cout << "Введите размер списка :"; cin >> n;
+	cout << "Р’РІРµРґРёС‚Рµ СЂР°Р·РјРµСЂ СЃРїРёСЃРєР° :"; cin >> n;
 	for (int i = 0; i < n; i++)
 	{
 		list.push_front(rand() % 100);
@@ -316,12 +316,12 @@ void main()
 	list.print();
 
 	int value, index;
-	cout << "Введите добавляемое значение: "; cin >> value;
-	cout << "Введите индекс элемента для добавления: "; cin >> index;
+	cout << "Р’РІРµРґРёС‚Рµ РґРѕР±Р°РІР»СЏРµРјРѕРµ Р·РЅР°С‡РµРЅРёРµ: "; cin >> value;
+	cout << "Р’РІРµРґРёС‚Рµ РёРЅРґРµРєСЃ СЌР»РµРјРµРЅС‚Р° РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ: "; cin >> index;
 	list.insert(value, index);
 	list.print();
 	int index_2;
-	cout << "Введите индекс элемента для удаления: "; cin >> index_2;
+	cout << "Р’РІРµРґРёС‚Рµ РёРЅРґРµРєСЃ СЌР»РµРјРµРЅС‚Р° РґР»СЏ СѓРґР°Р»РµРЅРёСЏ: "; cin >> index_2;
 	list.erase(index_2);
 	list.print();
 
@@ -336,7 +336,7 @@ void main()
 	cout << endl;
 
 	List list_3 = list + list_2;
-	cout << "Конкатенация списков: " << endl;
+	cout << "РљРѕРЅРєР°С‚РµРЅР°С†РёСЏ СЃРїРёСЃРєРѕРІ: " << endl;
 	list_3.print();
 
 	cout << endl;
