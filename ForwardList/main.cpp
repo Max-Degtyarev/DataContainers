@@ -24,6 +24,7 @@ public:
 
 };
 
+
 class ForwardList
 {
 	Element* Head; // Голова списка
@@ -41,6 +42,9 @@ public:
 
 	// Adding Elements
 
+
+	
+
 	void push_front(int Data)
 	{
 		//1) Создаем новый элемент
@@ -51,6 +55,87 @@ public:
 		Head = New;
 		
 	}
+
+
+	void push_back(int Data)
+	{
+		if (Head == nullptr)return push_front(Data);
+		Element* New = new Element(Data);
+		Element* Temp = Head;
+		while (Temp->pNext)Temp = Temp->pNext;
+		Temp->pNext = New;
+
+	}
+
+
+	// Removing elements
+
+
+	void pop_front()
+	{
+		//1) Запоминаем адрес удаляемого элемента
+		Element* erased = Head;
+		//2) Исключаем элемент из списка
+		Head = Head->pNext;
+		//3) Удаляем элемент из памяти
+		delete erased;
+
+	}
+
+
+	void pop_back()
+	{
+		Element* Temp = Head;
+		while (Temp->pNext->pNext)Temp = Temp->pNext;
+		delete Temp->pNext;
+		Temp->pNext = nullptr;
+		
+	}
+
+
+	void insert(int Data, int index)
+	{
+		if (index == 0)
+		{
+			return push_front(Data);
+		}
+		else
+		{
+			Element* New = new Element(Data);
+			Element* Temp = Head;
+			for (int i = 0; i < index - 1; i++)
+			{
+				Temp = Temp->pNext;
+			}
+			New->pNext = Temp->pNext;
+			Temp->pNext = New;
+		}
+
+	}
+
+	void erase(int index)
+	{
+		if (index == 0)
+		{
+			return pop_front();
+		}
+		else
+		{
+			Element* Temp = Head;
+			for (int i = 0; i < index - 1; i++)
+			{
+				Temp = Temp->pNext;
+			}
+
+			Element* erased = Temp->pNext;
+			Temp->pNext = Temp->pNext->pNext;
+			delete erased;
+		}
+
+	}
+
+
+
 
 
 	// Methods
@@ -71,6 +156,10 @@ public:
 
 
 
+//Head == nullptr;
+//Head->pNext == nullptr;
+
+
 
 
 void main()
@@ -82,10 +171,28 @@ void main()
 	for (int i = 0; i < n; i++)
 	{
 		list.push_front(rand() % 100);
+		
 	}
 	list.print();
-
-
+	for (int i = 0; i < n; i++)
+	{
+		list.push_back(rand() % 100);
+	}
+	list.print();
+	list.pop_front();
+	list.print();
+	list.pop_back();
+	list.print();
+	int value;
+	int index;
+	cout << "Введите добавляемое значение: "; cin >> value;
+	cout << "Введите индекс элемента для добавления: "; cin >> index;
+	list.insert(value, index);
+	list.print();
+	int index_2;
+	cout << "Введите индекс элемента для удаления: "; cin >> index_2;
+	list.erase(index_2);
+	list.print();
 
 
 
