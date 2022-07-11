@@ -1,8 +1,12 @@
 ﻿#include<iostream>
 using namespace std;
+using std::cout;
 
 
 #define tab "\t"
+#define delimiter "\n----------------------\n"
+
+class List;
 
 class Element
 {
@@ -46,6 +50,9 @@ public:
 	}
 
 	friend class List;
+	friend List operator+(const List& left, const List& right);
+
+
 
 };
 
@@ -76,6 +83,17 @@ public:
 		size = 0;
 		cout << "ListConstructor: " << this << endl;
 	}
+
+
+	List(initializer_list<int> il) :List()
+	{
+		cout << typeid(il.begin()).name() << endl;
+		for (int const* it = il.begin(); it != il.end(); it++)
+			push_back(*it);
+
+
+	}
+
 
 	List(int arr[], const int n)
 	{
@@ -112,12 +130,13 @@ public:
 
 	List(const List& other) : List()
 	{
-		Element* Temp = other.Head;
+		/*Element* Temp = other.Head;
 		while (Temp)
 		{
 			push_back(Temp->Data);
 			Temp = Temp->pNext;
-		}
+		}*/
+		*this = other;
 		cout << "CopyConstructor\t" << this << endl;
 
 	}
@@ -136,10 +155,13 @@ public:
 
 	}*/
 	
-	List(List&& other)
+	List(List&& other):List()
 	{
-		this->Head = other.Head;
+		/*this->Head = other.Head;
+		this->size = other.size;
 		other.Head = nullptr;
+		other.size = 0;*/
+		*this = std::move(other);
 		cout << "MoveConstructor\t" << this << endl;
 
 	}
@@ -171,6 +193,7 @@ public:
 	
 	List& operator=(const List& other)
 	{
+		if (this == &other)return *this;
 		while (Head)pop_front();
 		Element* Temp = other.Head;
 		while (Temp)
@@ -191,7 +214,9 @@ public:
 	List& operator=(List&& other)
 	{
 		this->Head = other.Head;
+		this->size = other.size;
 		other.Head = nullptr;
+		other.size = 0;
 		cout << "MoveAssignment\t" << this << endl;
 		return *this;
 	}
@@ -201,19 +226,23 @@ public:
 
 	void push_front(int Data)
 	{
-		Element* New = new Element(Data);
+		/*Element* New = new Element(Data);
 		New->pNext = Head;
-		Head = New;
+		Head = New;*/
+
+		Head = new Element(Data, Head);
 		size++;
+
+
 	}
 
 	void push_back(int Data)
 	{
 		if (Head == nullptr)return push_front(Data);
-		Element* New = new Element(Data);
+		//Element* New = new Element(Data);
 		Element* Temp = Head;
 		while (Temp->pNext)Temp = Temp->pNext;
-		Temp->pNext = New;
+		Temp->pNext = new Element(Data);
 		size++;
 	}
 
@@ -240,14 +269,15 @@ public:
 		if (index == 0)return push_front(Data);
 		if (index == size)return push_back(Data);
 		if (index > size)return;
-		Element* New = new Element(Data);
 		Element* Temp = Head;
 		for (int i = 0; i < index - 1; i++)
 		{
 			Temp = Temp->pNext;
 		}
+		/*Element* New = new Element(Data);
 		New->pNext = Temp->pNext;
-		Temp->pNext = New;
+		Temp->pNext = New;*/
+		Temp->pNext = new Element(Data, Temp->pNext);
 		size++;
 	}
 
@@ -274,12 +304,14 @@ public:
 
 	void print()const
 	{
-		Element* Temp = Head;
+		/*Element* Temp = Head;
 		while (Temp)
 		{
 			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 			Temp = Temp->pNext;
-		}
+		}*/
+		for(Element* Temp = Head; Temp; Temp = Temp->pNext)
+			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 		cout << "Количество элементов списка: " << size << endl;
 		cout << "Общее количество элементов: " << Element::count << endl;
 	}
@@ -294,7 +326,7 @@ public:
 		}
 	}
 
-		
+	friend List operator+(const List& left, const List& right);
 	
 
 };
@@ -302,7 +334,7 @@ public:
 
 List operator+(const List& left, const List& right)
 {
-	List list_buffer;
+	/*List list_buffer;
 	Element* Temp = left.get_Head();
 	Element* Temp_2 = right.get_Head();
 	while (Temp)
@@ -316,19 +348,27 @@ List operator+(const List& left, const List& right)
 		list_buffer.push_back(Temp_2->get_Data());
 		Temp_2 = Temp_2->get_pNext();
 	}
-	return list_buffer;
-
-	/*Element* Temp_2 = list_buffer.get_Head();
-	while (Temp_2->get_pNext())Temp_2 = Temp_2->get_pNext();
-	Temp_2->set_pNext(right.get_Head());
 	return list_buffer;*/
 
+	List cat = left;
+	/*Element* Temp = right.Head;
+	while (Temp)
+	{
+		cat.push_back(Temp->Data);
+		Temp = Temp->pNext;
+	}*/
+	for (Element* Temp = right.Head; Temp; Temp = Temp->pNext)
+		cat.push_back(Temp->Data);
+	cout << "Operator + " << endl;
+	return cat;
 
 }
 
 
-#define BASE_CHECK
-//#define COUNT_CHECK
+//#define BASE_CHECK
+//#define OPERATOR_PLUS_CHECK
+//#define RANGE_BASED_ARRAY
+
 
 void main()
 {
@@ -337,7 +377,7 @@ void main()
 #ifdef BASE_CHECK
 	List list;
 	int n;
-	cout << "Введите размер списка :"; cin >> n;
+	cout << "Введите размер списка: "; cin >> n;
 	for (int i = 0; i < n; i++)
 	{
 		list.push_front(rand() % 100);
@@ -380,15 +420,17 @@ void main()
 	List list_5 = { 2, 8, 14, 25, 32 };
 	list_5.print();
 
+	cout << delimiter << endl;
 	List list_6 = list;
 	list_6.print();
+	cout << delimiter << endl;
 
 	List list_7;
 	list_7 = list_5;
 	list_7.print();
 #endif // BASE_CHECK
 
-#ifdef COUNT_CHECK
+#ifdef OPERATOR_PLUS_CHECK
 	List list1;
 	list1.push_back(3);
 	list1.push_back(5);
@@ -397,13 +439,47 @@ void main()
 	list1.push_back(21);
 	list1.print();
 
+	cout << delimiter << endl;
 
 	List list2;
 	list2.push_back(34);
 	list2.push_back(55);
 	list2.push_back(89);
 	list2.print();
+
+	cout << delimiter << endl;
+
+	List list3;
+	list3 = list1 + list2;
+	list3.print();
+
+	cout << delimiter << endl;
+
+
 #endif // COUNT_CHECK
+
+
+#ifdef RANGE_BASED_ARRAY
+	int arr[] = { 3, 5, 8, 13, 21 };
+	for (int i = 0; i < sizeof(arr) / sizeof(arr[0]); i++)
+		cout << arr[i] << tab;
+	cout << endl;
+
+	// range-based for
+	// цикл for на основе диапазона, цикл for для контейнеров
+	for (int i : arr)
+		cout << i << tab;
+	cout << endl;
+	// Итератора i последовательно принимает значение каждого элемента массива
+
+#endif // RANGE_BASED_ARRAY
+
+
+	List list = {3, 5, 8, 13, 21};
+	list.print();
+
+
+
 
 
 
