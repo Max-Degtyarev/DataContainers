@@ -50,6 +50,7 @@ public:
 	}
 
 	friend class List;
+	friend class Iterator;
 	friend List operator+(const List& left, const List& right);
 
 
@@ -57,6 +58,63 @@ public:
 };
 
 int Element::count = 0;
+
+
+class Iterator
+{
+	Element* Temp;
+
+public:
+
+	Iterator(Element* Temp = nullptr):Temp(Temp)
+	{
+		cout << "ItConstructor:\t" << this << endl;
+
+	}
+	~Iterator()
+	{
+		cout << "ItDestructor:\t" << this << endl;
+	}
+
+	Iterator& operator++()
+	{
+		Temp = Temp->pNext;
+		return *this;
+	}
+
+	Iterator operator++(int)
+	{
+		Iterator old = *this;
+		Temp = Temp->pNext;
+		return old;
+	}
+
+	bool operator == (const Iterator& other)const
+	{
+		return this->Temp == other.Temp;
+
+	}
+	
+	bool operator != (const Iterator& other)const
+	{
+		return this->Temp != other.Temp;
+	}
+
+	const int& operator*()const
+	{
+		return Temp->Data;
+	}
+
+	int& operator*()
+	{
+		return Temp->Data;
+	}
+
+
+
+
+};
+
 
 
 class List
@@ -77,6 +135,16 @@ public:
 		this->Head = Head;
 	}
 
+	Iterator begin()
+	{
+		return Head;
+	}
+
+	Iterator end()
+	{
+		return nullptr;
+	}
+
 	List()
 	{
 		Head = nullptr;
@@ -87,7 +155,7 @@ public:
 
 	List(initializer_list<int> il) :List()
 	{
-		cout << typeid(il.begin()).name() << endl;
+		//cout << typeid(il.begin()).name() << endl;
 		for (int const* it = il.begin(); it != il.end(); it++)
 			push_back(*it);
 
@@ -205,7 +273,6 @@ public:
 		cout << "CopyAssignment\t" << this << endl;
 		return *this;
 
-
 	}
 
 
@@ -315,6 +382,8 @@ public:
 		cout << "Количество элементов списка: " << size << endl;
 		cout << "Общее количество элементов: " << Element::count << endl;
 	}
+	
+	
 
 	void clear()
 	{
@@ -327,7 +396,7 @@ public:
 	}
 
 	friend List operator+(const List& left, const List& right);
-	
+	friend class Element;
 
 };
 
@@ -476,10 +545,17 @@ void main()
 
 
 	List list = {3, 5, 8, 13, 21};
-	list.print();
+	//list.print();
 
-
-
+	for (int i : list)
+		cout << i << tab;
+	cout << endl;
+	
+	/*for (Iterator it = list.begin(); it != list.end(); it++)
+	{
+		cout << *it << tab;
+	}
+	cout << endl;*/
 
 
 
