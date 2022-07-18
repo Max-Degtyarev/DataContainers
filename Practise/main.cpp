@@ -73,6 +73,7 @@ public:
 	}
 	~Iterator()
 	{
+		cout << endl;
 		cout << "ItDestructor:\t" << this << endl;
 	}
 
@@ -158,8 +159,7 @@ public:
 		//cout << typeid(il.begin()).name() << endl;
 		for (int const* it = il.begin(); it != il.end(); it++)
 			push_back(*it);
-
-
+		
 	}
 
 
@@ -274,7 +274,6 @@ public:
 		return *this;
 
 	}
-
 
 
 
@@ -437,6 +436,7 @@ List operator+(const List& left, const List& right)
 //#define BASE_CHECK
 //#define OPERATOR_PLUS_CHECK
 //#define RANGE_BASED_ARRAY
+#define INITIALIZING
 
 
 void main()
@@ -481,13 +481,13 @@ void main()
 	cout << "Конкатенация списков: " << endl;
 	list_3.print();
 
-	int arr[] = { 3, 5, 8, 13, 21 };
+	/*int arr[] = { 3, 5, 8, 13, 21 };
 	List list_4(arr, sizeof(arr) / sizeof(arr[0]));
 	list_4.print();
 
 
 	List list_5 = { 2, 8, 14, 25, 32 };
-	list_5.print();
+	list_5.print();*/
 
 	cout << delimiter << endl;
 	List list_6 = list;
@@ -495,7 +495,7 @@ void main()
 	cout << delimiter << endl;
 
 	List list_7;
-	list_7 = list_5;
+	list_7 = list_3;
 	list_7.print();
 #endif // BASE_CHECK
 
@@ -544,19 +544,22 @@ void main()
 #endif // RANGE_BASED_ARRAY
 
 
-	List list = {3, 5, 8, 13, 21};
+#ifdef INITIALIZING
+	List list = { 3, 5, 8, 13, 21, 56, 78, 85 };
 	//list.print();
 
 	for (int i : list)
 		cout << i << tab;
 	cout << endl;
-	
+
 	/*for (Iterator it = list.begin(); it != list.end(); it++)
 	{
 		cout << *it << tab;
 	}
 	cout << endl;*/
 
+
+#endif // INITIALIZING
 
 
 
