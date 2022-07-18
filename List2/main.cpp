@@ -53,7 +53,6 @@ public:
 		return *this;
 
 	}
-	
 	Iterator operator++(int)
 	{
 		Iterator old = *this;
@@ -65,18 +64,20 @@ public:
 	{
 		return this->Temp == other.Temp;
 	}
-	
+
 	bool operator!=(const Iterator& other)const
 	{
 		return this->Temp != other.Temp;
 	}
 
+	const int& operator*()const
+	{
+		return Temp->data;
+	}
 	int& operator*()
 	{
 		return Temp->data;
 	}
-
-
 
 
 
@@ -99,11 +100,19 @@ public:
 	}
 
 
+	Iterator begin()const
+	{
+		return Head;
+	}
 	Iterator begin()
 	{
 		return Head;
 	}
 
+	Iterator end()const
+	{
+		return nullptr;
+	}
 	Iterator end()
 	{
 		return nullptr;
@@ -118,7 +127,7 @@ public:
 	}
 
 	template<typename T>
-	List(initializer_list<T> il): List()
+	List(initializer_list<T> il) : List()
 	{
 		for (T const* it = il.begin(); it != il.end(); it++)
 		{
@@ -126,7 +135,7 @@ public:
 		}
 	}
 
-	List(const List& other):List()
+	List(const List& other) :List()
 	{
 		Element* Temp = other.Head;
 		while (Temp)
@@ -135,7 +144,6 @@ public:
 			Temp = Temp->pNext;
 		}
 		cout << "CopyConstructor\t\t" << this << endl;
-
 	}
 
 
@@ -156,6 +164,7 @@ public:
 	~List()
 	{
 		while (Head)pop_front();
+		//while (Tail)pop_back();
 		cout << "ListDestructor:\t\t" << this << endl;
 	}
 
@@ -168,17 +177,17 @@ public:
 			Head = Tail = New;
 			size++;
 		}
-		else if (Head->pNext == nullptr)
+		/*else if (Head->pNext == nullptr)
 		{
 			Element* New = new Element(data, Head);
 			Head->pPrev = Head = New;
 			Tail = New->pNext;
 			size++;
-		}
+		}*/
 		else
 		{
 			Element* New = new Element(data, Head);
-			Head->pPrev = Head = New;
+			Head = Head->pPrev = New;
 			//Head = New;
 			size++;
 		}
@@ -208,7 +217,7 @@ public:
 
 	void pop_front()
 	{
-		if (Head->pNext == nullptr)
+		if (Head->pNext == nullptr && Tail->pPrev == nullptr)
 		{
 			Tail = nullptr;
 			delete Head;
@@ -240,7 +249,7 @@ public:
 		}
 	}
 
-	
+
 	void insert(int data, int index)
 	{
 		if (index == 0)return push_front(data);
@@ -331,31 +340,33 @@ public:
 List operator+(const List& left, const List& right)
 {
 	List cat = left;
-	Element* Temp = right.Head;
+	/*Element* Temp = right.Head;
 	while (Temp)
 	{
 		cat.push_back(Temp->data);
 		Temp = Temp->pNext;
-	}
-
+	}*/
+	for (int i : right)cat.push_back(i);
+	//for (Iterator it = right.Head; it != nullptr; ++it)cat.push_back(*it);
 	return cat;
-
 
 }
 
 
-
+#define HOME_WORK_CHECK
 
 void main()
 {
 	setlocale(LC_ALL, "");
 
+#ifdef HOME_WORK_CHECK
 	List list;
 	int n;
 	cout << "Введите количество элементов списка: "; cin >> n;
 	for (int i = 0; i < n; i++)
 	{
-		list.push_back(rand() % 100);
+		//list.push_back(rand() % 100);
+		list.push_front(rand() % 100);
 	}
 	list.print();
 
@@ -389,13 +400,13 @@ void main()
 	cout << "Введте индекс элемента для удаления (в диапазоне от 0 до " << list.get_size() - 1 << "):"; cin >> index2;
 	list.erase(index2);
 	list.print();
-	
+
 
 	cout << delimiter;
 	List list2 = list;
 	list2.print();
 
-	
+
 	cout << delimiter;
 	List list3;
 	list3 = list2;
@@ -415,7 +426,7 @@ void main()
 	list6 = list5 + list4;
 	list6.print();
 
-	
+
 	cout << delimiter;
 	for (int i : list5)
 		cout << i << tab;
@@ -423,11 +434,15 @@ void main()
 
 
 	cout << delimiter;
+#endif // HOME_WORK_CHECK
+
+	//List list = { 3,5,8,13,21 };
+	////for (int i : list)cout << i << "\t"; cout << endl;
+	//list.print();
 
 
 
+}
 
-}	
-	
 
 
