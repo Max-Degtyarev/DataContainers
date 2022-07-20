@@ -100,7 +100,50 @@ public:
 		size--;
 	}
 
+	void insert(int data, int index)
+	{
+		if (index > size)return;
+		if (index == 0)return push_front(data);
+		if (index == size)return push_back(data);
 
+		Element* Temp;
+		if (index < size / 2)
+		{
+			Temp = Head;
+			for (int i = 0; i < index; i++)Temp = Temp->pNext;
+		}
+		else
+		{
+			Temp = Tail;
+			for (int i = 0; i < size - index - 1; i++)Temp = Temp->pPrev;
+		}
+		Temp->pPrev = Temp->pPrev->pNext = new Element(data, Temp, Temp->pPrev);
+		size++;
+	}
+
+	void erase(int index)
+	{
+		if (index >= size)return;
+		if (index == 0)return pop_front();
+		
+		Element* Temp;
+		if (index < size / 2)
+		{
+			Temp = Head;
+			for (int i = 0; i < index; i++)Temp = Temp->pNext;
+		}
+		else
+		{
+			Temp = Tail;
+			for (int i = 0; i < size - index - 1; i++)Temp->pPrev;
+		}
+		Temp->pPrev->pNext = Temp->pNext;
+		Temp->pNext->pPrev = Temp->pPrev;
+		delete Temp;
+		size--;
+
+
+	}
 
 
 
@@ -129,6 +172,9 @@ public:
 	}
 		
 
+
+
+
 };
 
 
@@ -144,8 +190,21 @@ void main()
 	List list;
 	for (int i = 0; i < n; i++)
 	{
-		list.push_front(rand() % 100);
+		list.push_back(rand() % 100);
 	}
+	list.print();
+	list.reverse_print();
+
+	int value;
+	int index;
+	cout << "Введите значение добавляемого элемента: "; cin >> value;
+	cout << "Введите индекс добавляемого элемента: "; cin >> index;
+	list.insert(value, index);
+	list.print();
+	list.reverse_print();
+
+	cout << "Введите индекс удаляемого элемента: "; cin >> index;
+	list.erase(index);
 	list.print();
 	list.reverse_print();
 
