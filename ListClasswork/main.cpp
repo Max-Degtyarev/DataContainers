@@ -34,6 +34,18 @@ class List
 	//Element* Tail;
 	unsigned int size;
 
+	class ConstBaseIterator
+	{
+		Element* Temp;
+
+	public:
+
+		ConstBaseIterator(Element* Temp = nullptr) : Temp(Temp)
+		{
+			cout << "CBItConstructor:\t" << this << endl;
+		}
+
+	};
 
 public:
 
@@ -226,6 +238,17 @@ public:
 
 	}
 
+	List(const List& other): List()
+	{
+		for (Iterator it = other.begin(); it != other.end(); ++it)
+		{
+			push_back(*it);
+
+		}
+
+	}
+
+
 
 	~List()
 	{
@@ -368,6 +391,20 @@ public:
 
 };
 
+
+
+List operator+(const List& left, const List& right)
+{
+
+	List cat = left;
+	for (List::Iterator it = right.begin(); it != right.end(); ++it)
+	{
+		cat.push_back(*it);
+		(*it) *= 100;
+
+	}
+	return cat;
+}
 
 
 //#define BASE_CHECK
