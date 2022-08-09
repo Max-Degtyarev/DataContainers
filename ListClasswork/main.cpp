@@ -36,6 +36,8 @@ class List
 
 	class ConstBaseIterator
 	{
+
+	protected:
 		Element* Temp;
 
 	public:
@@ -44,159 +46,192 @@ class List
 		{
 			cout << "CBItConstructor:\t" << this << endl;
 		}
+		~ConstBaseIterator()
+		{
+			cout << "CBItDestructor:\t" << this << endl;
+		}
+
+		bool operator==(const ConstBaseIterator& other)const
+		{
+			return this->Temp == other.Temp;
+
+		}
+
+		bool operator!=(const ConstBaseIterator& other)const
+		{
+			return this->Temp != other.Temp;
+		}
+
+		const int& operator*()const
+		{
+			return Temp->data;
+
+		}
+		
+		
 
 	};
+
+
 
 public:
 
-	class Iterator
+	class ConstIterator:public ConstBaseIterator
 	{
-		Element* Temp;
+		
+	public:
+
+		ConstIterator(Element* Temp): ConstBaseIterator(Temp)
+		{
+			cout << "CItConstructor\t" << this << endl;
+				
+		}
+
+		~ConstIterator()
+		{
+			cout << "CItDestructor\t" << this << endl;
+
+		}
+
+		ConstIterator& operator++()
+		{
+			Temp = Temp->pNext;
+			return *this;
+
+		}
+
+		ConstIterator operator++(int)
+		{
+			ConstIterator old = *this;
+			Temp = Temp->pNext;
+			return old;
+		}
+
+		ConstIterator& operator--()
+		{
+			Temp = Temp->pPrev;
+			return *this;
+
+		}
+
+		ConstIterator operator--(int)
+		{
+			ConstIterator old = *this;
+			Temp = Temp->pPrev;
+			return old;
+		}
+
+		
+	};
+
+
+	class ConstReverseIterator:public ConstBaseIterator
+	{
+		
 
 	public:
 
-		Iterator(Element* Temp): Temp(Temp)
+		ConstReverseIterator(Element* Temp) : ConstBaseIterator(Temp)
 		{
-			cout << "ItConstructor\t" << this << endl;
-				
-		}
+			cout << "CRItConstructor:\t" << this << endl;
 
-		~Iterator()
-		{
-			cout << "ItDestructor\t" << this << endl;
-
-		}
-
-		Iterator& operator++()
-		{
-			Temp = Temp->pNext;
-			return *this;
-
-		}
-
-		Iterator operator++(int)
-		{
-			Iterator old = *this;
-			Temp = Temp->pNext;
-			return old;
-		}
-
-		Iterator& operator--()
-		{
-			Temp = Temp->pPrev;
-			return *this;
-
-		}
-
-		Iterator operator--(int)
-		{
-			Iterator old = *this;
-			Temp = Temp->pPrev;
-			return old;
-		}
-
-		bool operator==(const Iterator& other)const
-		{
-			return this->Temp == other.Temp;
 
 		}
 		
-		bool operator!=(const Iterator& other)const
+		~ConstReverseIterator()
 		{
-			return this->Temp != other.Temp;
+			cout << "CRItDestructor:\t" << this << endl;
+
 		}
 
-
-		const int& operator*()const
+		ConstReverseIterator& operator++()
 		{
-			return Temp->data;
+			Temp = Temp->pPrev;
+			return *this;
+
+		}
+		
+		ConstReverseIterator operator++(int)
+		{
+			ConstReverseIterator old = *this;
+			Temp = Temp->pPrev;
+			return old;
+
+		}
+
+		ConstReverseIterator& operator--()
+		{
+			Temp = Temp->pNext;
+			return *this;
+
+		}
+
+		ConstReverseIterator operator--(int)
+		{
+			ConstReverseIterator old = *this;
+			Temp = Temp->pNext;
+			return old;
+
+		}
 				
-		}
-
-		int& operator*()
-		{
-
-			return Temp->data;
-		}
-
-
 
 	};
 
-	class ReverseIterator
+	class Iterator : public ConstIterator
 	{
-		Element* Temp;
 
 	public:
 
-		ReverseIterator(Element* Temp) : Temp(Temp)
-		{
-			cout << "RItConstructor:\t" << this << endl;
+		Iterator(Element* Temp = nullptr):ConstIterator(Temp){}
 
-
-		}
-		
-		~ReverseIterator()
-		{
-			cout << "RItDestructor:\t" << this << endl;
-
-
-		}
-
-		ReverseIterator& operator++()
-		{
-			Temp = Temp->pPrev;
-			return *this;
-
-		}
-		
-		ReverseIterator operator++(int)
-		{
-			ReverseIterator old = *this;
-			Temp = Temp->pPrev;
-			return old;
-
-		}
-
-		ReverseIterator& operator--()
-		{
-			Temp = Temp->pNext;
-			return *this;
-
-		}
-
-		ReverseIterator operator--(int)
-		{
-			ReverseIterator old = *this;
-			Temp = Temp->pNext;
-			return old;
-
-		}
-
-		bool operator==(const ReverseIterator& other)const
-		{
-			return this->Temp == other.Temp;
-		}
-		
-		bool operator!=(const ReverseIterator& other)const
-		{
-			return this->Temp != other.Temp;
-		}
-
-		const int& operator*()const
+		int& operator*()
 		{
 			return Temp->data;
+
 		}
+
+	};
+
+	
+	class ReverseIterator :public ConstReverseIterator
+	{
+		
+	public:
+
+		ReverseIterator(Element* Temp = nullptr):ConstReverseIterator(Temp){}
 
 		int& operator*()
 		{
 			return Temp->data;
 		}
 
-
 	};
 
 
+
+
+
+
+	ConstIterator cbegin()const
+	{
+		return Head;
+	}
+
+	ConstIterator cend()const
+	{
+		return nullptr;
+	}
+
+
+	ConstReverseIterator crbegin()
+	{
+		return Tail;
+	}
+
+	ConstReverseIterator crend()
+	{
+		return nullptr;
+	}
 
 	Iterator begin()
 	{
@@ -204,17 +239,6 @@ public:
 	}
 
 	Iterator end()
-	{
-		return nullptr;
-	}
-
-
-	ReverseIterator rbegin()
-	{
-		return Tail;
-	}
-
-	ReverseIterator rend()
 	{
 		return nullptr;
 	}
@@ -231,16 +255,16 @@ public:
 
 	List(const initializer_list<int>& il) :List()
 	{
-		/*for (int const* it = il.begin(); it != il.end(); ++it)
-			push_back(*it);*/
+		for (int const* it = il.begin(); it != il.end(); ++it)
+			push_back(*it);
 
-		for (int i : il)push_back(i);
+		//for (int i : il)push_back(i);
 
 	}
 
 	List(const List& other): List()
 	{
-		for (Iterator it = other.begin(); it != other.end(); ++it)
+		for (ConstIterator it = other.cbegin(); it != other.cend(); ++it)
 		{
 			push_back(*it);
 
@@ -397,7 +421,7 @@ List operator+(const List& left, const List& right)
 {
 
 	List cat = left;
-	for (List::Iterator it = right.begin(); it != right.end(); ++it)
+	for (List::ConstIterator it = right.cbegin(); it != right.cend(); ++it)
 	{
 		cat.push_back(*it);
 		(*it) *= 100;
@@ -407,8 +431,11 @@ List operator+(const List& left, const List& right)
 }
 
 
-//#define BASE_CHECK
 
+
+//#define BASE_CHECK
+//#define ITERATORS_CHECK_1
+#define ITERATORS_CHECK_2
 
 
 
@@ -455,6 +482,7 @@ void main()
 	}
 #endif // BASE_CHECK
 
+#ifdef ITERATORS_CHECK_1
 	List list = { 3, 5, 8, 13, 21 };
 	list.print();
 
@@ -469,6 +497,16 @@ void main()
 
 	}
 	cout << endl;
+#endif // ITERATORS_CHECK_1
+
+	List list1 = { 3,5,8,13,21 };
+	List list2 = { 34,55,89 };
+	List list3 = list1 + list2;
+	for (int i : list1)cout << i << tab; cout << endl;
+	for (int i : list2)cout << i << tab; cout << endl;
+	for (int i : list3)cout << i << tab; cout << endl;
+
+
 
 
 

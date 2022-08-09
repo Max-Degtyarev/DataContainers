@@ -100,7 +100,7 @@ public:
 	}
 
 
-	Iterator begin()const
+	Iterator cbegin()const
 	{
 		return Head;
 	}
@@ -109,7 +109,7 @@ public:
 		return Head;
 	}
 
-	Iterator end()const
+	Iterator cend()const
 	{
 		return nullptr;
 	}
