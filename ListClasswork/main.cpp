@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include<exception>
 using namespace std;
 using std::cout;
@@ -67,8 +67,6 @@ class List
 			return Temp->data;
 
 		}
-		
-		
 
 	};
 
@@ -187,7 +185,6 @@ public:
 		int& operator*()
 		{
 			return Temp->data;
-
 		}
 
 	};
@@ -384,9 +381,6 @@ public:
 	}
 
 
-
-
-
 	// Methods
 
 	void print()const
@@ -396,7 +390,7 @@ public:
 		{
 			cout << Temp->pPrev << tab << Temp << tab << Temp->data << tab << Temp->pNext << endl;
 		}
-		cout << "Êîëè÷åñòâî ýëåìåíòîâ " << size << endl;
+		cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² " << size << endl;
 	}
 
 	void reverse_print()const
@@ -406,11 +400,9 @@ public:
 		{
 			cout << Temp->pPrev << tab << Temp << tab << Temp->data << tab << Temp->pNext << endl;
 		}
-		cout << "Êîëè÷åñòâî ýëåìåíòîâ " << size << endl;
+		cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² " << size << endl;
 	}
 		
-
-
 
 
 };
@@ -424,12 +416,11 @@ List operator+(const List& left, const List& right)
 	for (List::ConstIterator it = right.cbegin(); it != right.cend(); ++it)
 	{
 		cat.push_back(*it);
-		(*it) *= 100;
+		//(*it) *= 100;
 
 	}
 	return cat;
 }
-
 
 
 
@@ -445,7 +436,7 @@ void main()
 
 #ifdef BASE_CHECK
 	int n;
-	cout << "Ââåäèòå ðàçìåð ñïèñêà: "; cin >> n;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€ ÑÐ¿Ð¸ÑÐºÐ°: "; cin >> n;
 	List list;
 	for (int i = 0; i < n; i++)
 	{
@@ -456,8 +447,8 @@ void main()
 
 	int value;
 	int index;
-	cout << "Ââåäèòå çíà÷åíèå äîáàâëÿåìîãî ýëåìåíòà: "; cin >> value;
-	cout << "Ââåäèòå èíäåêñ äîáàâëÿåìîãî ýëåìåíòà: "; cin >> index;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: "; cin >> value;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¸Ð½Ð´ÐµÐºÑ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: "; cin >> index;
 	try
 	{
 		list.insert(value, index);
@@ -469,7 +460,7 @@ void main()
 		cerr << e.what() << endl;
 	}
 
-	cout << "Ââåäèòå èíäåêñ óäàëÿåìîãî ýëåìåíòà: "; cin >> index;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¸Ð½Ð´ÐµÐºÑ ÑƒÐ´Ð°Ð»ÑÐµÐ¼Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: "; cin >> index;
 	try
 	{
 		list.erase(index);
@@ -502,12 +493,15 @@ void main()
 	List list1 = { 3,5,8,13,21 };
 	List list2 = { 34,55,89 };
 	List list3 = list1 + list2;
-	for (int i : list1)cout << i << tab; cout << endl;
+	//for (int i : list1)cout << i << tab; cout << endl;
+	for (List::Iterator it = list1.begin(); it != list1.end(); ++it)
+		cout << *it << tab;
+	cout << endl;
 	for (int i : list2)cout << i << tab; cout << endl;
 	for (int i : list3)cout << i << tab; cout << endl;
 
 
-
+	
 
 
 }
