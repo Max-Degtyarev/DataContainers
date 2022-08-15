@@ -1,32 +1,45 @@
 ﻿#include <iostream>
+#include<ctime>
 using namespace std;
+using std::cout;
+using std::cin;
+using std::endl;
 
+string Factory();
 
 #define tab "\t"
 
 class Element
 {
 	int Data;
+	string goods;
 	Element* pNext; // Адрес следующего элемента
 
 public:
-	Element(int Data, Element* pNext = nullptr) : Data(Data), pNext(pNext)
+	Element(int Data, string goods = "", Element* pNext = nullptr) : Data(Data), goods(goods), pNext(pNext)
 	{
+#ifdef DEBUG
 		cout << "EConstructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	~Element()
 	{
+#ifdef DEBUG
 		cout << "EDestructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 
 	friend class ForwardList;
-
+	friend class Queue;
 
 };
 
 
 class ForwardList
 {
+protected:
 	Element* Head; // Голова списка
 
 public:
@@ -134,10 +147,6 @@ public:
 
 	}
 
-
-
-
-
 	// Methods
 
 	void print()const
@@ -150,28 +159,148 @@ public:
 		}
 	}
 
+	friend class Queue;
+
+};
+
+
+class Queue: public ForwardList
+{
+	
+	Queue* top;
+	string goods;
+
+
+public:
+
+	Queue() : ForwardList()
+	{
+		
+
+	}
+
+
+	void set_goods(string goods)
+	{
+		this->goods = goods;
+
+	}
+
+
+
+	void push_back(int Data, string goods)
+	{
+		if (Head == nullptr)return push_front(Data);
+		Element* New = new Element(Data, goods);
+		Element* Temp = Head;
+		while (Temp->pNext)Temp = Temp->pNext;
+		Temp->pNext = New;
+
+	}
+
+	void service(int n)
+	{
+		int m = 0;
+		while (m != n)
+		{
+			set_goods(Factory());
+			this->pop_front();
+			m++;
+		}
+
+	}
+
+
+	void pop_front()
+	{
+		//srand(NULL);
+
+		//Element* erased = Head;
+		
+		cout << "Покупатель " << Head->Data << " " << goods << /* << Number() << Price()*/ endl;
+
+		Head = Head->pNext;
+		
+		//delete erased;
+
+	}
+
+	
+
+
+
+
+	void print()const
+	{
+		Element* Temp = Head;
+		while (Temp)
+		{
+			cout << "Покупатель " << Temp->Data << endl;
+			Temp = Temp->pNext; // Переход на следующий элемент
+		}
+	}
+
+
+
+
+};
+
+string Factory()
+{
+	//srand(time(NULL));
+	int index;
+	string goods;
+	//do
+	{
+		index = rand() % 3 + 1;
+		if (index == 1)goods = "Колбаса";
+		if (index == 2)goods = "Пиво";
+		if (index == 3)goods = "Хлеб";
+		if (index == 4)goods = "Мясо";
+	} //while (goods == Head->goods);
+
+	return goods;
+}
+
+class Stack :private ForwardList
+{
+
+public:
+	unsigned int get_size()const
+	{
+		//return size;
+
+	}
+
+	void push_front(int Data)
+	{
+
+
+	}
 
 
 };
 
 
 
-//Head == nullptr;
-//Head->pNext == nullptr;
 
+
+//#define LIST_CHECK
+//#define LIST_CHECK_2
 
 
 
 void main()
 {
 	setlocale(LC_ALL, "");
+#ifdef LIST_CHECK
 	int n;
 	cout << "Введите размер списка: "; cin >> n;
 	ForwardList list;
 	for (int i = 0; i < n; i++)
 	{
 		list.push_front(rand() % 100);
-		
+
 	}
 	list.print();
 	for (int i = 0; i < n; i++)
@@ -193,8 +322,27 @@ void main()
 	cout << "Введите индекс элемента для удаления: "; cin >> index_2;
 	list.erase(index_2);
 	list.print();
+#endif // LIST_CHECK
+
+#ifdef LIST_CHECK_2
+	srand(time(NULL));
+
+	Queue queue1;
+	int n;
+	cout << "Введите количество покупателей ожидающих открытие магазина: "; cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		queue1.push_back(i + 1, Factory());
+
+	}
+	queue1.print();
+	cout << endl << "После открытия магазина: " << endl;
+	queue1.service(n);
+#endif // LIST_CHECK_2
 
 
+	Stack stack;
+	stack
 
 
 

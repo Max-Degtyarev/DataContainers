@@ -1,5 +1,8 @@
 ﻿#include<iostream>
 using namespace std;
+using std::cout;
+using std::cin;
+using std::endl;
 
 
 #define tab "\t"
@@ -17,17 +20,24 @@ public:
 
 	Element(int data, Element* pNext = nullptr, Element* pPrev = nullptr) :data(data), pNext(pNext), pPrev(pPrev)
 	{
+#ifdef DEBUG
 		cout << "ElementConstructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 
 	~Element()
 	{
+#ifdef DEBUG
 		cout << "ElementDestructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 
 	friend class List;
 	friend class Iterator;
 	friend List operator+(const List& left, const List& right);
+	friend class Stack;
 };
 
 
@@ -237,11 +247,13 @@ public:
 
 	void pop_back()
 	{
+		
 		if (Head->pNext == nullptr)return pop_front();
 		else
 		{
 			Element* Temp = Head;
 			while (Temp->pNext->pNext)Temp = Temp->pNext;
+			cout << "Пассажир " << Temp->data << endl;
 			Tail = Temp->pNext->pPrev;
 			delete Temp->pNext;
 			Temp->pNext = nullptr;
@@ -320,8 +332,6 @@ public:
 	}
 
 
-
-
 	void print()const
 	{
 		cout << "Голова: " << Head << endl;
@@ -334,7 +344,52 @@ public:
 	}
 
 	friend List operator+(const List& left, const List& right);
+	friend class Stack;
+
 };
+
+
+class Stack: public List
+{
+	Stack* top;
+	Stack* bottom;
+
+public:
+
+	Stack() :List()
+	{
+		top = nullptr;
+		bottom = nullptr;
+	}
+	
+	~Stack(){}
+
+
+	void get_out()
+	{
+		cout << "Пассажир " << Tail->data << endl;
+		while(Head)this->pop_back();
+
+	}
+
+	void print()const
+	{
+		for (Element* Temp = Head; Temp; Temp = Temp->pNext)
+		{
+			cout << "Пассажир " << Temp->data << endl;
+		}
+		
+	}
+
+
+
+
+
+
+
+};
+
+
 
 
 List operator+(const List& left, const List& right)
@@ -353,7 +408,7 @@ List operator+(const List& left, const List& right)
 }
 
 
-#define HOME_WORK_CHECK
+//#define HOME_WORK_CHECK
 
 void main()
 {
@@ -439,6 +494,42 @@ void main()
 	//List list = { 3,5,8,13,21 };
 	////for (int i : list)cout << i << "\t"; cout << endl;
 	//list.print();
+
+
+
+	Stack stack1;
+	int n1, n2, n3;
+	cout << "Введите количество людей на первой остановке: "; cin >> n1;
+	for (int i = 0; i < n1; i++)
+	{
+		stack1.push_back(i + 1);
+
+	}
+	stack1.print();
+
+	cout << "Введите количество людей на второй остановке: "; cin >> n2;
+	for (int i = 0; i < n2; i++)
+	{
+		stack1.push_back(i + (n1 + 1));
+
+	}
+	stack1.print();
+
+	cout << "Введите количество людей на третьей остановке: "; cin >> n3;
+	for (int i = 0; i < n3; i++)
+	{
+		stack1.push_back(i + (n1 + n2 + 1));
+
+	}
+	stack1.print();
+
+	cout << "Выход пассажиров на конечной остановке: " << endl;
+	stack1.get_out();
+
+
+
+
+
 
 
 
