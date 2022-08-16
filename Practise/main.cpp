@@ -51,6 +51,7 @@ public:
 
 	friend class List;
 	friend class Iterator;
+	friend class Stack;
 	friend List operator+(const List& left, const List& right);
 
 
@@ -120,6 +121,7 @@ public:
 
 class List
 {
+protected:
 	Element* Head;
 	unsigned int size;
 
@@ -275,8 +277,6 @@ public:
 
 	}
 
-
-
 	List& operator=(List&& other)
 	{
 		this->Head = other.Head;
@@ -286,9 +286,6 @@ public:
 		cout << "MoveAssignment\t" << this << endl;
 		return *this;
 	}
-
-
-
 
 	void push_front(int Data)
 	{
@@ -328,7 +325,6 @@ public:
 		Temp->pNext = nullptr;
 		size--;
 	}
-
 
 	void insert(int Data, int index)
 	{
@@ -382,8 +378,6 @@ public:
 		cout << "Общее количество элементов: " << Element::count << endl;
 	}
 	
-	
-
 	void clear()
 	{
 		while (Head)
@@ -433,10 +427,49 @@ List operator+(const List& left, const List& right)
 }
 
 
+class Stack :private List
+{
+public:
+
+	unsigned int get_size()const
+	{
+		return size;
+	}
+	
+	void push(int data)
+	{
+		List::push_front(data);
+	}
+	
+	void pop()
+	{
+		List::pop_front();
+	}
+
+	const int& top()const
+	{
+		return Head->Data;
+	}
+	int& top()
+	{
+		return Head->Data;
+	}
+
+	void print()const
+	{
+		List::print();
+
+	}
+
+
+
+};
+
+
 //#define BASE_CHECK
 //#define OPERATOR_PLUS_CHECK
 //#define RANGE_BASED_ARRAY
-#define INITIALIZING
+//#define INITIALIZING
 
 
 void main()
@@ -560,6 +593,18 @@ void main()
 
 
 #endif // INITIALIZING
+
+	Stack stack;
+	stack.push(3);
+	stack.push(5);
+	stack.push(8);
+	stack.push(13);
+	stack.push(21);
+	cout << stack.get_size() << endl;
+	stack.print();
+	for (; stack.get_size(); stack.pop())
+		cout << stack.top() << endl;
+	stack.print();
 
 
 
