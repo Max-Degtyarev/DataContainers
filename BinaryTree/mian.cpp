@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 #include<ctime>
 using std::cout;
 using std::cin;
@@ -231,12 +231,12 @@ public:
 	{
 		if (Root == nullptr)
 		{
-			cout << "Äàííîãî çíà÷åíèÿ íåò â äåðåâå" << endl;
+			cout << "Ð”Ð°Ð½Ð½Ð¾Ð³Ð¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ Ð½ÐµÑ‚ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ" << endl;
 			return;
 		}
 		if (Root->Data == m)
 		{
-			cout << "Çíà÷åíèå åñòü â äåðåâå" << endl;
+			cout << "Ð—Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ ÐµÑÑ‚ÑŒ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ" << endl;
 			delete Root;
 			return;
 		}
@@ -331,7 +331,7 @@ void main()
 	srand(time(NULL));
 
 	int n = rand() % 14 + 1; 
-	//cout << "Ââåäèòå ðàçìåð äåðåâà: "; cin >> n;
+	//cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð´ÐµÑ€ÐµÐ²Ð°: "; cin >> n;
 	Tree tree;
 	for (int i = 0; i < n; i++)
 	{
@@ -342,20 +342,20 @@ void main()
 	tree.print();
 	cout << endl;
 
-	cout << "Ìèíèìàëüíîå çíà÷åíèå äåðåâà: " << tree.minValue() << endl;
+	cout << "ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð´ÐµÑ€ÐµÐ²Ð°: " << tree.minValue() << endl;
 
-	cout << "Ìàêñèìàëüíîå çíà÷åíèå äåðåâà: " << tree.maxValue() << endl;
+	cout << "ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð´ÐµÑ€ÐµÐ²Ð°: " << tree.maxValue() << endl;
 
-	cout << "Êîëè÷åñòâî ýëåìåíòîâ â äåðåâå: " << tree.Count() << endl;
+	cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << tree.Count() << endl;
 	
-	cout << "Ñóììà ýëåìåíòîâ äåðåâà: " << tree.Sum() << endl;
+	cout << "Ð¡ÑƒÐ¼Ð¼Ð° ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð´ÐµÑ€ÐµÐ²Ð°: " << tree.Sum() << endl;
 
-	cout << "Ñðåäíåå-àðèôìåòè÷åñêîå ýëåìåíòîâ äåðåâà: " << tree.Avg() << endl;
+	cout << "Ð¡Ñ€ÐµÐ´Ð½ÐµÐµ-Ð°Ñ€Ð¸Ñ„Ð¼ÐµÑ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð´ÐµÑ€ÐµÐ²Ð°: " << tree.Avg() << endl;
 
-	cout << "Ãëóáèíà äåðåâà: " << tree.depth() << endl;
+	cout << "Ð“Ð»ÑƒÐ±Ð¸Ð½Ð° Ð´ÐµÑ€ÐµÐ²Ð°: " << tree.depth() << endl;
 
 	int m;
-	cout << "Ââåäèòå çíà÷åíèå äëÿ óäàëåíèÿ "; cin >> m;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð´Ð»Ñ ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ñ "; cin >> m;
 	tree.erase(m, tree.getRoot());
 	tree.print();
 	cout << endl;
@@ -366,7 +366,7 @@ void main()
 
 
 	int t;
-	cout << "Ââåäèòå ðàçìåð äåðåâà: "; cin >> t;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð´ÐµÑ€ÐµÐ²Ð°: "; cin >> t;
 	UniqueTree u_tree;
 	for (int i = 0; i < t; i++)
 	{
@@ -374,15 +374,15 @@ void main()
 	}
 	u_tree.print();
 	cout << endl;
-	cout << "Ñóììà ýëåìåíòîâ äåðåâà: " << u_tree.Sum() << endl;
-	cout << "Ñðåäíåå-àðèôìåòè÷åñêîå ýëåìåíòîâ äåðåâà: " << u_tree.Avg() << endl;
+	cout << "Ð¡ÑƒÐ¼Ð¼Ð° ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð´ÐµÑ€ÐµÐ²Ð°: " << u_tree.Sum() << endl;
+	cout << "Ð¡Ñ€ÐµÐ´Ð½ÐµÐµ-Ð°Ñ€Ð¸Ñ„Ð¼ÐµÑ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð´ÐµÑ€ÐµÐ²Ð°: " << u_tree.Avg() << endl;
 
 
 	Tree deep_tree = { 50, 25, 75, 16, 32, 64, 85, 14, 12 };
-	cout << "Ìèíèìàëüíîå çíà÷åíèå äåðåâà: " << deep_tree.minValue() << endl;
+	cout << "ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð´ÐµÑ€ÐµÐ²Ð°: " << deep_tree.minValue() << endl;
 	deep_tree.print();
 	cout << endl;
-	cout << "Ãëóáèíà äåðåâà: " << deep_tree.depth() << endl;
+	cout << "Ð“Ð»ÑƒÐ±Ð¸Ð½Ð° Ð´ÐµÑ€ÐµÐ²Ð°: " << deep_tree.depth() << endl;
 
 
 
