@@ -69,7 +69,8 @@ public:
 
 	~Tree()
 	{
-		this->clear(this->Root);
+		clear(Root);
+		
 		cout << "TDestructor\t" << this << endl;
 	}
 
@@ -77,6 +78,12 @@ public:
 	{
 		Insert(Data, Root);
 	}
+
+	void erase(int Data)
+	{
+		erase(Data, Root);
+	}
+
 
 	int minValue()const
 	{
@@ -109,6 +116,12 @@ public:
 	int depth()const
 	{
 		return depth(Root);
+	}
+
+	void clear()
+	{
+		clear(Root);
+		
 	}
 
 
@@ -155,6 +168,40 @@ private:
 		}
 	}
 
+	void erase(int Data, Element*& Root)
+	{
+		if (Root == nullptr)return;
+		erase(Data, Root->pLeft);
+		erase(Data, Root->pRight);
+		if (Data == Root->Data)
+		{
+			if (Root->pLeft == Root->pRight)
+			{
+				delete Root;
+				Root = nullptr;
+			}
+			else
+			{
+				//Root->Data = maxValue(Root->pLeft);
+				if (Count(Root->pLeft) > Count(Root->pRight))
+				{
+					Root->Data = maxValue(Root->pLeft);
+					erase(maxValue(Root->pLeft), Root->pLeft);
+				}
+				else
+				{
+					Root->Data = minValue(Root->pRight);
+					erase(minValue(Root->pRight), Root->pRight);
+				}
+
+
+			}
+
+		}
+
+	}
+
+
 
 
 	/*int minValue()const
@@ -177,7 +224,7 @@ private:
 	{
 		/*if (Root->pLeft == nullptr)return Root->Data;
 		else return minValue(Root->pLeft);*/
-		return Root->pLeft == nullptr ? Root->Data : minValue(Root->pLeft);
+		return Root == nullptr ? 0 : Root->pLeft == nullptr ? Root->Data : minValue(Root->pLeft);
 
 	}
 	
@@ -185,7 +232,7 @@ private:
 	{
 		/*if (Root->pRight == nullptr)return Root->Data;
 		else return maxValue(Root->pRight);*/
-		return Root->pRight ? maxValue(Root->pRight) : Root->Data;
+		return Root == nullptr ? 0 : Root->pRight ? maxValue(Root->pRight) : Root->Data;
 	}
 
 
@@ -223,11 +270,22 @@ private:
 	}
 
 
+	void clear(Element*& Root)
+	{
+		if (Root == nullptr)return;
+		clear(Root->pLeft);
+		clear(Root->pRight);
+		delete Root;
+		Root = nullptr;
+	}
+
+
+
 
 public:
 
 	
-	void erase(int m, Element* Root)
+	/*void erase(int m, Element* Root)
 	{
 		if (Root == nullptr)
 		{
@@ -243,16 +301,10 @@ public:
 		if (m < Root->Data)erase(m, Root->pLeft);
 		else erase(m, Root->pRight);
 
-	}
+	}*/
 
 
-	void clear(Element* Root)
-	{
-		if (Root == nullptr)return;
-		clear(Root->pLeft);
-		clear(Root->pRight);
-		delete Root;
-	}
+	
 
 
 	void print(Element* Root)const
@@ -320,17 +372,17 @@ public:
 };
 
 
-
-
-
+#define BASE_CHECK
+#define UINT unsigned int
 
 void main()
 {
 	setlocale(LC_ALL, "");
 
+#ifdef BASE_CHECK
 	srand(time(NULL));
 
-	int n = rand() % 14 + 1; 
+	int n = rand() % 14 + 1;
 	//cout << "Введите размер дерева: "; cin >> n;
 	Tree tree;
 	for (int i = 0; i < n; i++)
@@ -342,24 +394,24 @@ void main()
 	tree.print();
 	cout << endl;
 
+
+	tree.clear();
 	cout << "Минимальное значение дерева: " << tree.minValue() << endl;
 
 	cout << "Максимальное значение дерева: " << tree.maxValue() << endl;
 
 	cout << "Количество элементов в дереве: " << tree.Count() << endl;
-	
+
 	cout << "Сумма элементов дерева: " << tree.Sum() << endl;
 
 	cout << "Среднее-арифметическое элементов дерева: " << tree.Avg() << endl;
 
 	cout << "Глубина дерева: " << tree.depth() << endl;
 
-	int m;
-	cout << "Введите значение для удаления "; cin >> m;
-	tree.erase(m, tree.getRoot());
+
 	tree.print();
 	cout << endl;
-	
+
 	Tree tree2 = { 3, 5, 8, 13, 21 };
 	tree2.print();
 	cout << endl;
@@ -377,13 +429,31 @@ void main()
 	cout << "Сумма элементов дерева: " << u_tree.Sum() << endl;
 	cout << "Среднее-арифметическое элементов дерева: " << u_tree.Avg() << endl;
 
+#endif // BASE_CHECK
+
 
 	Tree deep_tree = { 50, 25, 75, 16, 32, 64, 85, 14, 12 };
-	cout << "Минимальное значение дерева: " << deep_tree.minValue() << endl;
 	deep_tree.print();
 	cout << endl;
 	cout << "Глубина дерева: " << deep_tree.depth() << endl;
 
+	int value;
+	cout << "Введите значение для удаления "; cin >> value;
+	deep_tree.erase(value);
+	deep_tree.print();
+
+
+
+
+
+	char sym[] = "Hello";
+
+
+	using C = int;
+
+	typedef unsigned int uint;
+	uint a;
+	cout << typeid(a).name() << endl;
 
 
 }
